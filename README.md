@@ -1,7 +1,8 @@
 This file contains instructions on how to use the code associated to the paper "Benchmark of lasso-like penalized Cox models reveals large differences between cancers and improved performance with two-dimensional pre-screening".
 
-How to download the TCGA data (optional, a sample with 100 patients is provided)
 
+How to download the TCGA data (optional, a sample with 100 patients is provided)
+==================================
 
 Clinical and mRNA-seq datasets were obtained using the Broad GDAC FIREHOSE utility.
 
@@ -17,7 +18,7 @@ Clinical and mRNA-seq datasets were obtained using the Broad GDAC FIREHOSE utili
 	(e.g. 'KIRC.uncv2.mRNAseq_RSEM_all.txt') into the folder 'data_cancer/'cancer-name'/ (e.g. 'data_cancer/KIRC/)..	
 To overcome runing time and size issues, the data available in 'Rdata_cancer_screen/' contain only 100 patients for 3 cancers (ACC, BRCA and KIRC).
 	
-==================================
+
 How to run the code 
 ==================================
 
@@ -26,7 +27,7 @@ How to run the code
 
 As the running time is high, results will be saved all along the code in 'data_fit' into .RData files. Please check the code and remove the previous files if you want to launch the code a second time (previous data saved will be loaded otherwise). 
 
-==================================
+
 Running times 
 ==================================
 
