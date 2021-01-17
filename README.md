@@ -4,6 +4,8 @@ This file contains instructions on how to use the code associated to the paper "
 How to download the TCGA data (optional, a sample with 100 patients is provided)
 ==================================
 
+To overcome runing time and size issues, the data available in 'Rdata_cancer_screen/' contain only 100 patients for 3 cancers (ACC, BRCA and KIRC) in .RData files.
+
 Clinical and mRNA-seq datasets were obtained using the Broad GDAC FIREHOSE utility.
 
 1. Go on the website https://gdac.broadinstitute.org
@@ -16,7 +18,6 @@ Clinical and mRNA-seq datasets were obtained using the Broad GDAC FIREHOSE utili
 	4.a. On the 'mRNASeq' panel, click on 'mRNAseq_Preprocess'. A zip file is downloaded.
 	4.b. Open this .zip file and copy the file ''cancer-name'.uncv2.mRNAseq_RSEM_all.txt' 
 	(e.g. 'KIRC.uncv2.mRNAseq_RSEM_all.txt') into the folder 'data_cancer/'cancer-name'/ (e.g. 'data_cancer/KIRC/)..	
-To overcome runing time and size issues, the data available in 'Rdata_cancer_screen/' contain only 100 patients for 3 cancers (ACC, BRCA and KIRC).
 	
 
 How to run the code 
