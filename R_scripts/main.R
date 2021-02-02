@@ -37,11 +37,12 @@ for(cancer in cancers_all){
 # C-index for all cancers -------------------------------------------------
 
 # parameters for the fit
-K_folds <- 3
-n_rep <- 1
+K_folds <- 3 # 5 in the paper
+n_rep <- 2 # 10 in the paper
 perc_min_clin <- 90
 
 # compute the C-indices with mRNA data (ridge), clinical data, and both
+learn_new_models <- T # choose if new models have to be learned
 source(file = "1.1_pred_clin_mRNA.R")
 
 # sort the cancers according to the median C-index computed with mRNA-seq data
@@ -77,8 +78,8 @@ for(cancer in cancers_all){
                                     alternative = "greater")$p.value
 }
 
-# BH correction - level 0.2
-s_level <- 0.2
+# BH correction 
+s_level <- 0.2 # 0.01 in the paper
 p_val_test_BH <- p.adjust(p_val_test, method = "BH")
 sum(p_val_test_BH <= s_level)
 length(p_val_test_BH)
@@ -108,9 +109,11 @@ thrs_IQR <- c(0, 1.5)
 
 # !!! this step can take some times !!!
 method <- "EN"
+learn_new_models <- T # choose if new models have to be learned
 source(file = "3.2_flt_learn_models.R")
 
 method <- "ridge"
+learn_new_models <- T # choose if new models have to be learned
 source(file = "3.2_flt_learn_models.R")
 
 # nested cross-validataion ---
@@ -118,9 +121,11 @@ source(file = "3.2_flt_learn_models.R")
 
 # learn models for nested CV
 pred_measure <- "C" 
+learn_new_models <- T # choose if new models have to be learned
 source(file = "3.3_flt_nested_CV.R")
 
 pred_measure <- "IBS" 
+learn_new_models <- T # choose if new models have to be learned
 source(file = "3.3_flt_nested_CV.R")
 
 # produce the main figures ---
@@ -145,4 +150,5 @@ source(file = "5_benchmark.R")
 
 # Comparison with ISIS ----------------------------------------------------
 
+learn_new_models <- T # choose if new models have to be learned
 source(file = "6_SIS.R")

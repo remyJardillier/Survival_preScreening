@@ -50,6 +50,7 @@ print(clin_available_mRNA)
 
 write.xlsx(clin_available_mRNA, file = "tables/clin_available_mRNA.xlsx",
            row.names = T)
+print("Table saved in: 'tables/clin_available_mRNA.xlsx'")
 
 save(clin_text_plot, file = "clin_avalilable.RData")
 
@@ -144,7 +145,7 @@ plot_clin_mRNA <- annotate_figure(plot_clin_mRNA, top = text_grob("Cancers not u
 print(plot_clin_mRNA)
 
 ggsave(plot_clin_mRNA, filename = "pdf/suppl_clin_mRNA_can_NotUsed.pdf")
-
+print("Figure saved in 'pdf/suppl_clin_mRNA_can_NotUsed.pdf'")
 
 # Boxplot - cancers used -----------------------------------------------------------------
 
@@ -211,5 +212,5 @@ plot_clin_mRNA <- annotate_figure(plot_clin_mRNA, top = text_grob("Cancers used"
 print(plot_clin_mRNA)
 
 ggsave(plot_clin_mRNA, filename = "pdf/suppl_clin_mRNA_can_used.pdf")
-
+print("Figure saved in'pdf/suppl_clin_mRNA_can_used.pdf'")
 

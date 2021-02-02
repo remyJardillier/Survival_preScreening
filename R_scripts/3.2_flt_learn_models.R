@@ -2,141 +2,143 @@
 
 # Learn models ------------------------------------------------------------
 
-for(cancer in cancers_all){
+if(learn_new_models){
   
-  print(paste0("Start learning for: ", cancer))
-  
-  # load the data ---
-  source(file = "load_data/load_data_final.R")
-  
-  # compute the C-index, IBS and p-value of the univariate Cox
-  # for all pre-filtering thresholds 
-  C_ary_final = IBS_ary_final =
-  n_genes_ary_final = n_genes_IQR_ary_final = n_genes_p_val_ary_final <- 
-    array(dim=c(length(thrs_p_val), length(thrs_IQR),  K_folds * n_rep),
-                dimnames = list(thrs_p_val, thrs_IQR, 1:(K_folds * n_rep)))
-  
-  # i=1
-  # k=1
-  
-  ind <- 1
-  
-  for(i in 1:n_rep){
+  for(cancer in cancers_all){
     
-    print(paste0("*** Start learning for repetition number: ", i, " (", cancer, ") ***"))
+    print(paste0("Start learning for: ", cancer))
     
-    flds <- createFolds(1:nrow(count_mRNA), k = K_folds, list = TRUE, returnTrain = FALSE)
+    # load the data ---
+    source(file = "load_data/load_data_final.R")
     
-    for(k in 1:K_folds){
+    # compute the C-index, IBS and p-value of the univariate Cox
+    # for all pre-filtering thresholds 
+    C_ary_final = IBS_ary_final =
+      n_genes_ary_final = n_genes_IQR_ary_final = n_genes_p_val_ary_final <- 
+      array(dim=c(length(thrs_p_val), length(thrs_IQR),  K_folds * n_rep),
+            dimnames = list(thrs_p_val, thrs_IQR, 1:(K_folds * n_rep)))
+    
+    ind <- 1
+    
+    for(i in 1:n_rep){
       
-      print(paste0("*** Start learning for fold: ", k, " ***"))
+      print(paste0("*** Start learning for repetition number: ", i, " (", cancer, ") ***"))
       
-      # build training and testing dataset ---
-      id_test <- flds[[k]]
+      flds <- createFolds(1:nrow(count_mRNA), k = K_folds, list = TRUE, returnTrain = FALSE)
       
-      # id of the training dataset
-      id_train <- 1:nrow(count_mRNA)
-      id_train <- id_train[-id_test]
-      
-      # testing and training dataset
-      count_train <- count_mRNA[id_train,]
-      count_test <- count_mRNA[id_test,]
-      
-      clin_train <- clin[id_train,]
-      y_cox_train <- Surv(clin_train$time, clin_train$status)
-      clin_test <- clin[id_test,]
-      y_cox_test <- Surv(clin_test$time, clin_test$status)
-      
-      dim(count_train)
-      dim(count_test)
-      
-      # filtering (genes expressed or not) ang logCPM in the training data
-      logCPM_list <- log.cpm.cv(count_train, count_test)
-      
-      logCPM_train <- logCPM_list$logCPM_train
-      sd_train <- apply(logCPM_train, 2, sd)
-      logCPM_train <- logCPM_train[, sd_train != 0]
-      count_train <- count_train[, colnames(logCPM_train)]
-      
-      logCPM_test <- logCPM_list$logCPM_test
-      logCPM_test <- logCPM_test[, colnames(logCPM_train)]
-      
-      # standardization
-      logCPM_train_std <- std_train(logCPM_train)
-      logCPM_test_std <- std_test(logCPM_train, logCPM_test)
-      
-      # p-values and IQR for the filtering ---
-      # compute p-values
-      p_val_cox_train <- p_val_univCox_func(logCPM_train_std, y_cox_train)
-      p_val_cox_train_BH <- p.adjust(p_val_cox_train, method = "BH")
-      
-      id_NA <- is.na(p_val_cox_train_BH)
-      logCPM_train_std <- logCPM_train_std[,!id_NA]
-      count_train <- count_train[,!id_NA]
-      logCPM_test_std <- logCPM_test_std[, !id_NA]
-      p_val_cox_train_BH <-  p_val_cox_train_BH[!id_NA]
-      
-      dim(logCPM_train_std)
-      dim(count_train)
-      dim(logCPM_test_std)
-      length(p_val_cox_train_BH)
-      
-      # compute IQR with variance stabilization
-      vst_train <- t(vst(t(round(count_train))))
-      vst_train[1:5, 1:5]
-      
-      IQR_vect_train <- apply(vst_train, 2, IQR)
-      
-      
-      for(p in 1:length(thrs_p_val)){
+      for(k in 1:K_folds){
         
-        print(paste0("Start learning for p_val_univCox: ", thrs_p_val[p]))
+        print(paste0("*** Start learning for fold: ", k, " ***"))
         
-        for(q in 1:length(thrs_IQR)){
+        # build training and testing dataset ---
+        id_test <- flds[[k]]
+        
+        # id of the training dataset
+        id_train <- 1:nrow(count_mRNA)
+        id_train <- id_train[-id_test]
+        
+        # testing and training dataset
+        count_train <- count_mRNA[id_train,]
+        count_test <- count_mRNA[id_test,]
+        
+        clin_train <- clin[id_train,]
+        y_cox_train <- Surv(clin_train$time, clin_train$status)
+        clin_test <- clin[id_test,]
+        y_cox_test <- Surv(clin_test$time, clin_test$status)
+        
+        dim(count_train)
+        dim(count_test)
+        
+        # filtering (genes expressed or not) ang logCPM in the training data
+        logCPM_list <- log.cpm.cv(count_train, count_test)
+        
+        logCPM_train <- logCPM_list$logCPM_train
+        sd_train <- apply(logCPM_train, 2, sd)
+        logCPM_train <- logCPM_train[, sd_train != 0]
+        count_train <- count_train[, colnames(logCPM_train)]
+        
+        logCPM_test <- logCPM_list$logCPM_test
+        logCPM_test <- logCPM_test[, colnames(logCPM_train)]
+        
+        # standardization
+        logCPM_train_std <- std_train(logCPM_train)
+        logCPM_test_std <- std_test(logCPM_train, logCPM_test)
+        
+        # p-values and IQR for the filtering ---
+        # compute p-values
+        p_val_cox_train <- p_val_univCox_func(logCPM_train_std, y_cox_train)
+        p_val_cox_train_BH <- p.adjust(p_val_cox_train, method = "BH")
+        
+        id_NA <- is.na(p_val_cox_train_BH)
+        logCPM_train_std <- logCPM_train_std[,!id_NA]
+        count_train <- count_train[,!id_NA]
+        logCPM_test_std <- logCPM_test_std[, !id_NA]
+        p_val_cox_train_BH <-  p_val_cox_train_BH[!id_NA]
+        
+        dim(logCPM_train_std)
+        dim(count_train)
+        dim(logCPM_test_std)
+        length(p_val_cox_train_BH)
+        
+        # compute IQR with variance stabilization
+        vst_train <- t(vst(t(round(count_train))))
+        vst_train[1:5, 1:5]
+        
+        IQR_vect_train <- apply(vst_train, 2, IQR)
+        
+        
+        for(p in 1:length(thrs_p_val)){
           
-          print(paste0("Start learning for thrs_IQR: ", thrs_IQR[q]))
+          print(paste0("Start learning for p_val_univCox: ", thrs_p_val[p]))
           
-          if(sum(p_val_cox_train_BH <= thrs_p_val[p] & 
-                 IQR_vect_train >= thrs_IQR[q]) >= 2){
+          for(q in 1:length(thrs_IQR)){
             
-            # pre-filter the data and learn the models
-            logCPM_train_std_tmp <- logCPM_train_std[, p_val_cox_train_BH <= thrs_p_val[p] & 
+            print(paste0("Start learning for thrs_IQR: ", thrs_IQR[q]))
+            
+            if(sum(p_val_cox_train_BH <= thrs_p_val[p] & 
+                   IQR_vect_train >= thrs_IQR[q]) >= 2){
+              
+              # pre-filter the data and learn the models
+              logCPM_train_std_tmp <- logCPM_train_std[, p_val_cox_train_BH <= thrs_p_val[p] & 
                                                          IQR_vect_train >= thrs_IQR[q]]
-            logCPM_test_std_tmp <- logCPM_test_std[, p_val_cox_train_BH <= thrs_p_val[p] & 
+              logCPM_test_std_tmp <- logCPM_test_std[, p_val_cox_train_BH <= thrs_p_val[p] & 
                                                        IQR_vect_train >= thrs_IQR[q]]
-            
-            # learn a model
-            res <- try(fit <- learn_models(logCPM_train_std_tmp, clin_train, method))
-            
-            # compute the C-index, IBS and p-value
-            if(!inherits(res, "try-error")){
               
-              # number of genes
-              n_genes_ary_final[p,q,ind + k-1] <- sum(p_val_cox_train_BH <= thrs_p_val[p] & 
-                                                      IQR_vect_train >= thrs_IQR[q])
-              n_genes_IQR_ary_final[p,q,ind + k-1] <- sum(IQR_vect_train >= thrs_IQR[q])
-              n_genes_p_val_ary_final[p,q,ind + k-1] <- sum(p_val_cox_train_BH <= thrs_p_val[p])
+              # learn a model
+              res <- try(fit <- learn_models(logCPM_train_std_tmp, clin_train, method))
               
-              # C-index, IBS and p-value
-              C_IBS_pVal_tmp <- C_IBS_pVal_func(fit, clin_train, clin_test, logCPM_train_std_tmp, 
-                                                logCPM_test_std_tmp, method)
-             
-              
-              C_ary_final[p,q,ind + k-1] <- C_IBS_pVal_tmp[1]
-              IBS_ary_final[p,q,ind + k-1] <- C_IBS_pVal_tmp[2]
+              # compute the C-index, IBS and p-value
+              if(!inherits(res, "try-error")){
+                
+                # number of genes
+                n_genes_ary_final[p,q,ind + k-1] <- sum(p_val_cox_train_BH <= thrs_p_val[p] & 
+                                                          IQR_vect_train >= thrs_IQR[q])
+                n_genes_IQR_ary_final[p,q,ind + k-1] <- sum(IQR_vect_train >= thrs_IQR[q])
+                n_genes_p_val_ary_final[p,q,ind + k-1] <- sum(p_val_cox_train_BH <= thrs_p_val[p])
+                
+                # C-index, IBS and p-value
+                C_IBS_pVal_tmp <- C_IBS_pVal_func(fit, clin_train, clin_test, logCPM_train_std_tmp, 
+                                                  logCPM_test_std_tmp, method)
+                
+                
+                C_ary_final[p,q,ind + k-1] <- C_IBS_pVal_tmp[1]
+                IBS_ary_final[p,q,ind + k-1] <- C_IBS_pVal_tmp[2]
+              }
             }
           }
         }
       }
-    }
       
-    ind <- ind + K_folds
+      ind <- ind + K_folds
+    }
+    
+    save(C_ary_final, IBS_ary_final, 
+         n_genes_ary_final, n_genes_IQR_ary_final, n_genes_p_val_ary_final,
+         file = paste0("data_fit/", cancer, "/", method, "/pred_flt.RData"))
+    print(paste0("Data saved in: ", "'data_fit/", cancer, "/", method, "/pred_flt.RData'"))
   }
-  
-  save(C_ary_final, IBS_ary_final, 
-       n_genes_ary_final, n_genes_IQR_ary_final, n_genes_p_val_ary_final,
-       file = paste0("data_fit/", cancer, "/", method, "/pred_flt.RData"))
 }
+
 
 
 

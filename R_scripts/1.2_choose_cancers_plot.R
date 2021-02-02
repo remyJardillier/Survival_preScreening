@@ -37,3 +37,4 @@ C_all_cancers_plot <- ggplot() +
 print(C_all_cancers_plot)
 
 ggsave(C_all_cancers_plot, filename = "pdf/C_ridge_all_cancers.pdf")
+print("Figure saved in: 'pdf/C_ridge_all_cancers.pdf'")

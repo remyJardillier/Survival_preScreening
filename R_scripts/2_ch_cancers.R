@@ -31,3 +31,4 @@ for(cancer in cancers_all){
 print(data_ch )
 
 write.xlsx(data_ch, file = "tables/data_ch.xlsx", row.names = T)
+print("table saved in 'tables/data_ch.xlsx'")
