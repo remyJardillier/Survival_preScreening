@@ -26,7 +26,7 @@ How to run the code
 1. Open the file 'R_scripts/Survival_preScreening.Rproj' to open RStudio environment.
 2. Open the 'R_scripts/main.R' file and follow the instruction in the script. 
 
-As the running time is high, results will be saved all along the code in 'R_scripts/data_fit' into .RData files. Please check the code and remove the previous files if you want to launch the code a second time (previous data saved will be loaded otherwise). 
+As the running time is high, results will be saved all along the code in 'R_scripts/data_fit' into .RData files. Please set 'learn_new_models' variable to 'TRUE' if you want to learn new models. Otherwise, previous models (if they exist) will be loaded.
 
 
 Running times 
