@@ -12,12 +12,12 @@ Clinical and mRNA-seq datasets were obtained using the Broad GDAC FIREHOSE utili
 2. Choose the cancer and click on 'Browse' in the 'Data' column
 3. Clinical data:
 	3.a. On the 'Clinical' panel, click on 'Merge_Clinical'. A .zip file is downloaded.
-	3.b. Open this .zip file and copy the file ''cancer-name'.clin.merged.txt' 
-	(e.g. 'KIRC.clin.merged.txt') into the folder 'data_cancer/'cancer-name'/ (e.g. 'data_cancer/KIRC/).
+	3.b. Open this .zip file and copy the file 'cancer-name'.clin.merged.txt' 
+	(e.g. 'KIRC.clin.merged.txt') into the folder '../data_cancer/'cancer-name'/' (e.g. '../data_cancer/KIRC/').
 4. mRNA data:
 	4.a. On the 'mRNASeq' panel, click on 'mRNAseq_Preprocess'. A zip file is downloaded.
 	4.b. Open this .zip file and copy the file ''cancer-name'.uncv2.mRNAseq_RSEM_all.txt' 
-	(e.g. 'KIRC.uncv2.mRNAseq_RSEM_all.txt') into the folder 'data_cancer/'cancer-name'/ (e.g. 'data_cancer/KIRC/)..	
+	(e.g. 'KIRC.uncv2.mRNAseq_RSEM_all.txt') into the folder '../data_cancer/'cancer-name'/' (e.g. '../data_cancer/KIRC/').	
 	
 
 How to run the code 
