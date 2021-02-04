@@ -18,7 +18,8 @@ Clinical and mRNA-seq datasets were obtained using the Broad GDAC FIREHOSE utili
 	4.a. On the 'mRNASeq' panel, click on 'mRNAseq_Preprocess'. A zip file is downloaded.
 	4.b. Open this .zip file and copy the file ''cancer-name'.uncv2.mRNAseq_RSEM_all.txt' 
 	(e.g. 'KIRC.uncv2.mRNAseq_RSEM_all.txt') into the folder '../data_cancer/'cancer-name'/' (e.g. '../data_cancer/KIRC/').	
-	
+
+In this script, we use RData files that we created to load RNA-seq and clinical data. To use TCGA data downloaded as mentionned above, please use the commented part of the file 'R_scripts/load_data/load_data_final.R'.
 
 How to run the code 
 ==================================
