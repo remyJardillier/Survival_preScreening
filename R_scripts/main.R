@@ -142,13 +142,21 @@ source(file = "3.4_raw_vs_flt_plot.R")
 cancer <- "ACC"
 method <- "EN"
 
+# study the characteristics (IQR, p-value of univariate Cox model) 
+# of the genes selected withour pre-screening
 source(file = "4_slc_irrelevant_genes.R")
 
 # Benchmark of penalization methods after pre-screening -------------------
 
+# Boxplots of the C-indices and the IBS obtained after bi-dimensionnal
+# pre-screening for all the penalization methods (i.e. ridge, lasso,
+# elastic net, adaptive elastic net)
 source(file = "5_benchmark.R")
 
 # Comparison with ISIS ----------------------------------------------------
+
+# Boxplots of the C-indices and the IBS obtained after bi-dimensionnal
+# pre-screening for the elastic net and with ISIS algorithm
 
 learn_new_models <- T # choose if new models have to be learned
 source(file = "6_SIS.R")
