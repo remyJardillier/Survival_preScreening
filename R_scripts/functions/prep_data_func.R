@@ -12,7 +12,7 @@
 
 log.cpm <- function(valid.count){
 
-  # keep the genes that are expressed in at least 0.1% of samples
+  # keep the genes that are expressed in at least 1% of samples
   valid.count <- t(valid.count)
   vc.dge <- DGEList(counts = valid.count)
   vc.dge.isexpr <- rowSums(cpm(vc.dge) > 1) >= round(dim(vc.dge)[2]*0.01)
