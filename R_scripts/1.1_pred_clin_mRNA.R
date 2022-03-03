@@ -20,11 +20,8 @@ if(learn_new_models){
     colnames(C_df_final) = colnames(IBS_df_final) = colnames(p_val_df_final) <- 
       c("clin", "mRNA", "both")
     
-    i=1
-    k=1
-    
     ind <- 1
-    
+   
     for(i in 1:n_rep){
       
       print(paste0("*** Start learning for repetition number: ", i, " ***"))
