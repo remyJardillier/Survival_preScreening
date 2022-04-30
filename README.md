@@ -1,4 +1,4 @@
-This file contains instructions on how to use the code associated to the paper "Benchmark of lasso-like penalized Cox models reveals large differences between cancers and improved performance with two-dimensional pre-screening".
+This file contains instructions on how to use the code associated to the paper "Prognosis of lasso-like penalized Cox models with tumor profiling improves prediction over clinical data alone and benefits from bi-dimensional pre-screening".
 
 
 How to download the TCGA data (optional, a sample with 100 patients is provided)
